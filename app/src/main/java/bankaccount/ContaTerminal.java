@@ -7,7 +7,7 @@ public class ContaTerminal {
     static int numero;
     static String agencia;
     public static String name = "YOHANAM SILVA"; // default name
-    private double saldo;
+    private static double saldo;
     static boolean erro, loop, validation;
     static String teste;
     
@@ -17,8 +17,6 @@ public class ContaTerminal {
         validation = true;
 
         try (Scanner scanner = new Scanner(System.in)) {
-
-            int opicao = 0;
 
             while (loop) {
 
@@ -51,7 +49,7 @@ public class ContaTerminal {
 
                     teste = scanner.next();
 
-                    if (teste.equals("1") || teste.equals("0")) 
+                    if (teste.equals("1") || teste.equals("0")) {
 
                         switch (Integer.parseInt(teste)) {
 
@@ -73,28 +71,75 @@ public class ContaTerminal {
                 
                 } else {
 
+                    validation = false;
+
                     System.out.println("Olá " + getName() + "! Por favor, escolha uma das opções abaixo (digitando apenas o número da escolha):");
 
                     System.out.println("1 - Consultar saldo");
-                    
+                    System.out.println("2 - Alterar nome do titular");
+                    System.out.println("3 - Efetuar saque");
+                    System.out.println("4 - Efetuar depósito");
+                    System.out.println("5 - Sair");
+
+                    teste = scanner.next();
+
+                    switch (teste.trim()) {
+
+                        case "1":
+                            System.out.println("Saldo: " + getSaldo());
+                            break;
+                        case "2": 
+                            System.out.println("Digite o nome que deseja colocar:");
+                            setName(scanner.next());
+                            break;
+                        case "3":
+                            System.out.println("Quanto deseja sacar?");
+                            try {
+                                sacar(scanner.nextInt());                         
+                            } catch (Exception e) {
+                                System.out.println("Ops! Valor inválido. Por favor, tente novamente.");
+                            }
+                            break;
+                        case "4": 
+                            System.out.println("Quanto deseja depositar?");
+                            try {
+                                depositar(scanner.nextDouble());                         
+                            } catch (Exception e) {
+                                System.out.println("Ops! Valor inválido. Por favor, tente novamente.");
+                            }
+                            break;
+                        case "5":
+                            System.out.println("Tudo bem, até breve!");
+                            loop = false;
+                            break;
+                        default:
+                            System.out.println("Opção inválida! Por favor, digite uma opção válida.");
+                            break;
+                    }
                 }
             }
         }
     }
 
-    protected double getSaldo() {
-        return this.saldo;
+    protected static void sacar(double saque) {
+        
+        if (saldo >= saque) saldo -= saque; else System.out.println("Saldo insuficiente!");
+        
     }
 
-    protected void setSaldo(double saldo) {
-        this.saldo = saldo;
+    protected static void depositar(double valor) {
+        saldo += valor;
+    }
+
+    public static double getSaldo() {
+        return saldo;
     }
 
     public static String getName() {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public static void setName(String name) {
+        ContaTerminal.name = name;
     }
 }

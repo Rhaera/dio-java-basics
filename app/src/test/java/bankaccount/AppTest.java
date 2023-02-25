@@ -7,6 +7,6 @@ import org.junit.jupiter.api.Test;
 
 class AppTest {
     @Test void appHasAGreeting() {
-        ContaTerminal classUnderTest = new ContaTerminal();
+        System.out.println(ContaTerminal.getName());
     }
 }
